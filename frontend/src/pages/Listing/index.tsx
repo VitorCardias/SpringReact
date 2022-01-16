@@ -10,7 +10,6 @@ function listing() {
 
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [pageNumber, setPageNumber] = useState(0);
-
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [page, setPage] = useState<MoviePage>({
         content: [],
@@ -26,16 +25,20 @@ function listing() {
 
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
-        axios.get(`${BASE_URL}/movies?size=12&page=${pageNumber}$sort=id`)
+        axios.get(`${BASE_URL}/movies?size=12&page=${pageNumber}`)
             .then(response => {
-                const data = response.data as MoviePage
-                setPage(data)
+                const data = response.data as MoviePage;
+                setPage(data);
             })
     }, [pageNumber])
 
+    const handlePageChange = (newPageNumber : number) => {
+        setPageNumber(newPageNumber);
+    }
+
     return (
         <>
-            <Pagination />
+            <Pagination page = {page} onChange ={handlePageChange} />
 
             <div className="container">
                 <div className="row">
